@@ -15,7 +15,7 @@ if 'data_x' not in st.session_state:
     st.session_state.data_y = list(2.5 * np.linspace(0, 10, 5) + np.random.normal(0, 2, 5))
 
 # 【關鍵升級 2】建立三個主欄位，並設定寬度比例 (左1.2 : 中2.2 : 右1.5)
-col_left, col_mid, col_right = st.columns([1.2, 2.2, 1.5], gap="large")
+col_left, col_mid, col_right = st.columns([1,1,1], gap="large")
 
 # ==========================================
 # 區塊 1：左方 (數據與參數控制區)
@@ -65,7 +65,7 @@ coeffs = np.linalg.inv(ATA) @ ATb
 with col_mid:
     st.subheader("📈 動態視覺化圖表")
     
-    fig, ax = plt.subplots(figsize=(6, 5)) # 調整長寬比以適應欄位
+    fig, ax = plt.subplots(figsize=(5, 5)) # 調整長寬比以適應欄位
     ax.scatter(x, y, color='red')
 
     x_min, x_max = np.min(x), np.max(x)
