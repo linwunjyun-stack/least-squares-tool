@@ -7,6 +7,25 @@ import pandas as pd
 st.set_page_config(page_title="最小平方法互動學習工具", layout="wide")
 
 st.title("最小平方法互動學習工具")
+# --- 自訂 CSS 來放大字體 ---
+st.markdown("""
+<style>
+    /* 放大左側：輸入框、滑桿的標籤與一般文字 */
+    .stMarkdown p, label {
+        font-size: 18px !important;
+    }
+    /* 放大左側：按鈕內的文字 */
+    .stButton button p {
+        font-size: 18px !important;
+        font-weight: bold !important;
+    }
+    /* 放大右側：DataFrame 表格內的文字 */
+    div[data-testid="stDataFrame"] {
+        font-size: 16px !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+# ---------------------------
 st.write("---")
 
 # 初始化 Session State (儲存數據點)
@@ -15,7 +34,7 @@ if 'data_x' not in st.session_state:
     st.session_state.data_y = list(2.5 * np.linspace(0, 10, 5) + np.random.normal(0, 2, 5))
 
 # 【關鍵升級 2】建立三個主欄位，並設定寬度比例 (左1.2 : 中2.2 : 右1.5)
-col_left, col_mid, col_right = st.columns([1,1,1], gap="large")
+col_left, col_mid, col_right = st.columns([1.2,1,1.2], gap="large")
 
 # ==========================================
 # 區塊 1：左方 (數據與參數控制區)
@@ -65,7 +84,7 @@ coeffs = np.linalg.inv(ATA) @ ATb
 with col_mid:
     st.subheader("📈 動態視覺化圖表")
     
-    fig, ax = plt.subplots(figsize=(5, 5)) # 調整長寬比以適應欄位
+    fig, ax = plt.subplots(figsize=(3, 3)) # 調整長寬比以適應欄位
     ax.scatter(x, y, color='red')
 
     x_min, x_max = np.min(x), np.max(x)
