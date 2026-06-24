@@ -166,6 +166,36 @@ with col_right:
     eq_str = "f(x) = " + " ".join(eq_terms).lstrip("+ ")
     table_data.append(["回歸方程式", eq_str, "擬合結果"])
 
-    # 渲染 DataFrame
-    df = pd.DataFrame(table_data, columns=["運算步驟", "矩陣數值 / 內容", "類別"])
-    st.dataframe(df, hide_index=True, use_container_width=True)
+   df = pd.DataFrame(table_data, columns=["運算步驟", "矩陣數值 / 內容", "類別"])
+
+    # --- 撰寫專屬的 CSS 來精準控制表格的長寬高與字體 ---
+    custom_table_css = """
+    <style>
+        .academic-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 22px !important; /* 👉 1. 格中字體放大 */
+            color: #333333;
+        }
+        .academic-table th {
+            background-color: #f8f9fa;
+            font-weight: 800;
+            padding: 15px 10px; 
+            border-bottom: 2px solid #cccccc;
+            text-align: left;
+        }
+        .academic-table td {
+            padding: 30px 10px !important; /* 👉 2. 每橫列上下高拉大 (30px 是上下留白空間) */
+            border-bottom: 1px solid #eeeeee;
+            vertical-align: middle;
+        }
+        /* 👉 3. 精準控制直行寬度 (縮小左右兩側，放大中間的矩陣數值區) */
+        .academic-table th:nth-child(1), .academic-table td:nth-child(1) { width: 20%; }
+        .academic-table th:nth-child(2), .academic-table td:nth-child(2) { width: 60%; }
+        .academic-table th:nth-child(3), .academic-table td:nth-child(3) { width: 20%; }
+    </style>
+    """
+    
+    # 將 CSS 注入網頁，並使用 to_html() 渲染去除 index 的純淨表格
+    st.markdown(custom_table_css, unsafe_allow_html=True)
+    st.markdown(df.to_html(index=False, classes="academic-table", escape=False), unsafe_allow_html=True)
