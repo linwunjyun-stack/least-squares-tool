@@ -196,4 +196,4 @@ with col_right:
     """
     
     st.markdown(custom_table_css, unsafe_allow_html=True)
-    st.markdown(df.to_html(index=False, classes="academic-table", escape=False), unsafe_allow_html=True), escape=False), unsafe_allow_html=True)
+    st.markdown(df.to_html(index=False, classes="academic-table", escape=False), unsafe_allow_html=True)
