@@ -180,18 +180,18 @@ with col_right:
         .academic-table th {
             background-color: #f8f9fa;
             font-weight: 800;
-            padding: 15px 10px; 
-            border-bottom: 2px solid #cccccc;
+            padding: 30px 32px; 
+            border-bottom: 15px solid #cccccc;
             text-align: left;
         }
         .academic-table td {
-            padding: 30px 10px !important; 
-            border-bottom: 1px solid #eeeeee;
+            padding: 30px 32px !important; 
+            border-bottom:10px solid #eeeeee;
             vertical-align: middle;
         }
-        .academic-table th:nth-child(1), .academic-table td:nth-child(1) { width: 20%; }
-        .academic-table th:nth-child(2), .academic-table td:nth-child(2) { width: 60%; }
-        .academic-table th:nth-child(3), .academic-table td:nth-child(3) { width: 20%; }
+        .academic-table th:nth-child(1), .academic-table td:nth-child(1) { width: 10%; }
+        .academic-table th:nth-child(2), .academic-table td:nth-child(2) { width: 20%; }
+        .academic-table th:nth-child(3), .academic-table td:nth-child(3) { width: 9%; }
     </style>
     """
     
