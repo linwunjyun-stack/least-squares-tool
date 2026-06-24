@@ -12,7 +12,7 @@ st.markdown("""
 <style>
     /* 放大左側：輸入框、滑桿的標籤與一般文字 */
     .stMarkdown p, label {
-        font-size: 18px !important;
+        font-size: 45px !important;
     }
     /* 放大左側：按鈕內的文字 */
     .stButton button p {
