@@ -7,21 +7,50 @@ import pandas as pd
 st.set_page_config(page_title="最小平方法互動學習工具", layout="wide")
 
 st.title("最小平方法互動學習工具")
-# --- 自訂 CSS 來放大字體 ---
+# --- 自訂 CSS 來全面放大字體與元件 ---
 st.markdown("""
 <style>
-    /* 放大左側：輸入框、滑桿的標籤與一般文字 */
-    .stMarkdown p, label {
+    /* 1. 上方主標題 (st.title) 放大 */
+    h1 {
+        font-size: 55px !important;
+        font-weight: 800 !important;
+        padding-bottom: 40px !important;
+    }
+    
+    /* 2. 區塊小標題 (st.subheader) 放大 */
+    h3 {
         font-size: 45px !important;
+        color: #333333 !important;
     }
-    /* 放大左側：按鈕內的文字 */
+    
+    /* 3. 輸入框標籤、拉桿標籤與一般文字放大 */
+    p, label {
+        font-size: 40px !important;
+    }
+    .stSlider div[data-testid="stThumbValue"] {
+        font-size: 40px !important; /* 拉桿上浮動的數字 */
+    }
+    
+    /* 4. 圖表下方的數據指標 (st.metric) 放大 */
+    [data-testid="stMetricLabel"] p {
+        font-size: 40px !important; /* 數據點數、MSE 的標題 */
+        color: #555555 !important;
+    }
+    [data-testid="stMetricValue"] div {
+        font-size: 48px !important; /* 具體的數字大小 */
+        font-weight: 900 !important;
+    }
+    
+    /* 5. 右側 DataFrame 表格整體放大 */
+    /* 因為 Streamlit 的表格是畫布(Canvas)渲染，用 zoom 屬性放大最有效 */
+    [data-testid="stDataFrame"] {
+        zoom: 1.35; 
+    }
+    
+    /* 放大按鈕內的文字 */
     .stButton button p {
-        font-size: 40px !important;
+        font-size: 20px !important;
         font-weight: bold !important;
-    }
-    /* 放大右側：DataFrame 表格內的文字 */
-    div[data-testid="stDataFrame"] {
-        font-size: 40px !important;
     }
 </style>
 """, unsafe_allow_html=True)
