@@ -16,12 +16,12 @@ st.markdown("""
     }
     /* 放大左側：按鈕內的文字 */
     .stButton button p {
-        font-size: 18px !important;
+        font-size: 40px !important;
         font-weight: bold !important;
     }
     /* 放大右側：DataFrame 表格內的文字 */
     div[data-testid="stDataFrame"] {
-        font-size: 16px !important;
+        font-size: 40px !important;
     }
 </style>
 """, unsafe_allow_html=True)
