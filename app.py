@@ -73,17 +73,30 @@ coeffs = np.linalg.inv(ATA) @ ATb
 
 # 4. 視覺化
 fig, ax = plt.subplots()
-ax.scatter(x, y, color='red', label='Data Points (觀測值)')
-x_range = np.linspace(0, 13, 100)
 
-# 使用 np.polyval 根據求出的係數陣列畫出曲線
+# 移除 label，並畫出數據點
+ax.scatter(x, y, color='red') 
+
+# 【修正 1：動態 X 軸範圍】
+# 找出目前所有 X 數據的最大值與最小值，並在左右各加一點寬度(例如寬度 2 和 5)
+x_min = np.min(x)
+x_max = np.max(x)
+x_range = np.linspace(x_min - 2, x_max + 5, 200) # 切成 200 個點讓曲線更平滑
+
+# 計算並畫出曲線 (同樣移除 label)
 y_fit = np.polyval(coeffs, x_range)
+ax.plot(x_range, y_fit, color='blue')
 
-ax.plot(x_range, y_fit, label=f'{degree} 階擬合曲線', color='blue')
-ax.set_ylim(-10, 35) # 稍微放寬 y 軸讓高階曲線顯示更完整
-ax.legend()
+# 【修正 2：動態 Y 軸範圍】
+# 為了避免高階曲線數值暴增導致畫面比例失衡，我們也讓 Y 軸動態對齊數據點
+y_min = np.min(y)
+y_max = np.max(y)
+ax.set_ylim(y_min - 10, y_max + 15) 
+
+# 【修正 3：移除圖例】
+# 已經刪除 ax.legend()，右上角圖示不會再出現
+
 st.pyplot(fig)
-
 # 5. 作業要求：展示計算邏輯
 with st.expander("查看矩陣運算細節 (正規方程邏輯)"):
     st.write(f"**目前選擇 {degree} 階多項式，設計矩陣 A 的維度為 {A.shape}**")
