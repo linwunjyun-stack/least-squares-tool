@@ -10,27 +10,44 @@ if 'data_x' not in st.session_state:
     st.session_state.data_x = list(np.linspace(0, 10, 5))
     st.session_state.data_y = list(2.5 * np.linspace(0, 10, 5) + np.random.normal(0, 2, 5))
 
-# 2. 互動控制介面
-col1, col2, col3 = st.columns(3)
+# 2. 互動控制介面 (升級版：支援自訂點位輸入)
+st.write("---")
+st.subheader("⚙️ 數據點控制")
+
+col1, col2 = st.columns(2)
 
 with col1:
-    if st.button("新增一個極端離群值"):
-        st.session_state.data_x.append(12)
-        st.session_state.data_y.append(np.random.uniform(15, 25))
+    st.write("**1. 新增自訂數據點**")
+    # 把輸入框和按鈕排在同一行
+    sub_col1, sub_col2, sub_col3 = st.columns([1, 1, 1])
+    with sub_col1:
+        new_x = st.number_input("輸入 X 座標", value=12.0, step=1.0)
+    with sub_col2:
+        new_y = st.number_input("輸入 Y 座標", value=20.0, step=1.0)
+    with sub_col3:
+        st.write("") # 用來對齊按鈕高度的空白
+        st.write("")
+        if st.button("➕ 新增點位"):
+            st.session_state.data_x.append(new_x)
+            st.session_state.data_y.append(new_y)
 
 with col2:
-    if st.button("移除最後一個離群值"):
-        # 確保至少保留 3 個點，避免矩陣計算錯誤
-        if len(st.session_state.data_x) > 3:
-            st.session_state.data_x.pop()
-            st.session_state.data_y.pop()
-        else:
-            st.warning("至少需要 3 個點才能進行最小平方法運算！")
-
-with col3:
-    if st.button("重置數據"):
-        st.session_state.data_x = list(np.linspace(0, 10, 5))
-        st.session_state.data_y = list(2.5 * np.linspace(0, 10, 5) + np.random.normal(0, 2, 5))
+    st.write("**2. 移除與重置**")
+    st.write("") # 對齊高度
+    
+    # 建立兩個並排的按鈕
+    btn_col1, btn_col2 = st.columns(2)
+    with btn_col1:
+        if st.button("🗑️ 移除最後一點"):
+            if len(st.session_state.data_x) > 3:
+                st.session_state.data_x.pop()
+                st.session_state.data_y.pop()
+            else:
+                st.error("至少需要 3 個點才能計算！")
+    with btn_col2:
+        if st.button("🔄 重置所有數據"):
+            st.session_state.data_x = list(np.linspace(0, 10, 5))
+            st.session_state.data_y = list(2.5 * np.linspace(0, 10, 5) + np.random.normal(0, 2, 5))
 
 # --- 請將這段加在「重置數據」按鈕的下方 ---
 
