@@ -6,6 +6,18 @@ import plotly.graph_objects as go
 # 網頁標題
 st.title("最小平方法互動學習工具")
 
+# 使用 CSS 放大所有 st.metric 的字體
+st.markdown(
+    """
+    <style>
+    [data-testid="stMetricValue"] {
+        font-size: 45px; /* 這裡調整數字的大小 */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 # 1. 初始化 Session State (儲存數據點)
 if 'data_x' not in st.session_state:
     st.session_state.data_x = list(np.linspace(0, 10, 5))
@@ -18,7 +30,7 @@ st.subheader("⚙️ 數據點與參數控制")
 col1, col2 = st.columns(2)
 
 with col1:
-    st.write("**1. 新增自訂數據點**")
+    st.markdown("<p style='font-size: 20px; font-weight: bold;'>1. 新增自訂數據點</p>", unsafe_allow_html=True)
     sub_col1, sub_col2, sub_col3 = st.columns([1, 1, 1])
     with sub_col1:
         new_x = st.number_input("輸入 X 座標", value=12.0, step=1.0)
@@ -85,13 +97,18 @@ fig.add_trace(go.Scatter(
     hoverinfo='skip' # 曲線上不顯示懸浮框，避免干擾
 ))
 
-# 設定圖表版面 (動態範圍與外觀)
+# 設定圖表版面 (動態範圍、外觀與字體大小)
 y_min, y_max = np.min(y), np.max(y)
 fig.update_layout(
     yaxis_range=[y_min - 10, y_max + 15],
     hovermode='closest',
     margin=dict(l=0, r=0, t=30, b=0),
-    showlegend=False
+    showlegend=False,
+    # 加入這行來統一調整圖表內的字體大小 (包含座標軸數字與懸浮提示)
+    font=dict(
+        size=20,      # 數字越大字體越大，建議設定在 14 到 18 之間
+        color="black" # 也可以順便指定字體顏色
+    )
 )
 
 st.plotly_chart(fig, use_container_width=True)
