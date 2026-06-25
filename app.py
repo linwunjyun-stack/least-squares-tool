@@ -19,25 +19,25 @@ st.markdown("""
     
     /* 2. 區塊小標題 (st.subheader) 放大 */
     h3 {
-        font-size: 45px !important;
+        font-size: 50px !important;
         color: #333333 !important;
     }
     
     /* 3. 輸入框標籤、拉桿標籤與一般文字放大 */
     p, label {
-        font-size: 40px !important;
+        font-size: 50px !important;
     }
     .stSlider div[data-testid="stThumbValue"] {
-        font-size: 40px !important; /* 拉桿上浮動的數字 */
+        font-size: 60px !important; /* 拉桿上浮動的數字 */
     }
     
     /* 4. 圖表下方的數據指標 (st.metric) 放大 */
     [data-testid="stMetricLabel"] p {
-        font-size: 40px !important; /* 數據點數、MSE 的標題 */
+        font-size: 50px !important; /* 數據點數、MSE 的標題 */
         color: #555555 !important;
     }
     [data-testid="stMetricValue"] div {
-        font-size: 48px !important; /* 具體的數字大小 */
+        font-size: 60px !important; /* 具體的數字大小 */
         font-weight: 900 !important;
     }
     
@@ -174,23 +174,23 @@ with col_right:
         .academic-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 22px !important; 
+            font-size: 40px !important; 
             color: #333333;
         }
         .academic-table th {
             background-color: #f8f9fa;
-            font-weight: 800;
-            padding: 30px 32px; 
-            border-bottom: 15px solid #cccccc;
+            font-weight: 900;
+            padding: 40px 40px; 
+            border-bottom: 40px solid #cccccc;
             text-align: left;
         }
         .academic-table td {
-            padding: 30px 32px !important; 
-            border-bottom:10px solid #eeeeee;
+            padding: 40px 40px !important; 
+            border-bottom:40px solid #eeeeee;
             vertical-align: middle;
         }
         .academic-table th:nth-child(1), .academic-table td:nth-child(1) { width: 10%; }
-        .academic-table th:nth-child(2), .academic-table td:nth-child(2) { width: 20%; }
+        .academic-table th:nth-child(2), .academic-table td:nth-child(2) { width: 15%; }
         .academic-table th:nth-child(3), .academic-table td:nth-child(3) { width: 9%; }
     </style>
     """
