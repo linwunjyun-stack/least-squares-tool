@@ -118,57 +118,24 @@ fig.update_layout(
 
 st.plotly_chart(fig, use_container_width=True)
 
-# 5. 作業要求：高階排版展示計算邏輯
+# 5. 作業要求：高階排版展示計算邏輯 (解決表格擠壓的上下排版)
 st.write("---")
 st.subheader("📊 運算細節與結果 (正規方程邏輯)")
 
-st.markdown("#### 🧮 核心矩陣即時動態變化")
-m_col1, m_col2, m_col3, m_col4 = st.columns(4)
+# 放棄 columns 並排，改為上下排列，並設定 use_container_width=True 釋放寬度
+st.markdown("#### 1. $A^T A$ (正規矩陣)")
+st.dataframe(pd.DataFrame(ATA), use_container_width=True)
 
-with m_col1:
-    st.write(f"**1. $A$ (設計矩陣)**")
-    st.dataframe(A, use_container_width=True)
-with m_col2:
-    st.write(f"**2. $A^T A$ (正規矩陣)**")
-    st.dataframe(ATA, use_container_width=True)
-with m_col3:
-    st.write(f"**3. $(A^T A)^{-1}$ (反矩陣)**")
-    st.dataframe(ATA_inv, use_container_width=True)
-with m_col4:
-    st.write(f"**4. $\hat{{x}}$ (係數向量)**")
-    st.dataframe(coeffs.reshape(-1, 1), use_container_width=True)
-# =======================================================
+st.markdown("#### 2. $(A^T A)^{-1}$ (反矩陣)")
+# 這裡加入 try-except 避免某些極端情況下矩陣無法反轉導致整個網頁崩潰
+try:
+    inv_ATA = np.linalg.inv(ATA)
+    st.dataframe(pd.DataFrame(inv_ATA), use_container_width=True)
+except np.linalg.LinAlgError:
+    st.error("目前的數據點組合無法計算反矩陣（奇異矩陣），請嘗試新增或調整數據點！")
 
-st.write("---")
-st.markdown("#### 📝 綜合運算步驟表")
-table_data = []
-
-# 建立矩陣 A (XᵀX) 的資料列
-for i in range(len(ATA)):
-    step_name = "矩陣 A (XᵀX)" if i == 0 else ""
-    row_str = "[ " + " , ".join([f"{val:.2f}" for val in ATA[i]]) + " ]"
-    table_data.append([step_name, row_str, "正規矩陣"])
-
-# 建立向量 B (Xᵀy)
-vec_str = "[ " + " , ".join([f"{val:.2f}" for val in ATb]) + " ]ᵀ"
-table_data.append(["向量 B (Xᵀy)", vec_str, "常數項"])
-
-# 建立回歸方程式字串
-eq_terms = []
-for i, c in enumerate(coeffs):
-    power = degree - i
-    if power == 0:
-        eq_terms.append(f"{c:+.2f}")
-    elif power == 1:
-        eq_terms.append(f"{c:+.2f}x")
-    else:
-        eq_terms.append(f"{c:+.2f}x^{power}")
-eq_str = "f(x) = " + " ".join(eq_terms).lstrip("+ ")
-table_data.append(["回歸方程式", eq_str, "擬合結果"])
-
-# 渲染表格與隱藏 index
-df = pd.DataFrame(table_data, columns=["運算步驟", "矩陣數值 / 方程式內容", "類別"])
-st.dataframe(df, hide_index=True, use_container_width=True)
+st.markdown("#### 3. $\hat{x}$ (計算出的係數)")
+st.dataframe(pd.DataFrame(coeffs, columns=["係數數值"]), use_container_width=True)
 
 st.write("---")
 
@@ -176,7 +143,7 @@ st.write("---")
 y_pred = np.polyval(coeffs, x)
 mse = np.mean((y - y_pred)**2)
 
-# 渲染底部數據指標
+# 渲染底部數據指標 (保持並排，因為數字通常不會太長)
 col_metric1, col_metric2 = st.columns(2)
 with col_metric1:
     st.metric(label="數據點數", value=f"{len(x)}")
