@@ -16,7 +16,7 @@ st.markdown(
     }
     /* 自訂大文字樣式，供後續介面標題使用 */
     .custom-label {
-        font-size: 20px;
+        font-size: 30px;
         font-weight: bold;
         margin-bottom: 5px;
     }
