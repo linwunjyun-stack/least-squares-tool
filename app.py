@@ -170,11 +170,11 @@ eq_terms = []
 for i, c in enumerate(coeffs):
     power = degree - i
     if power == 0:
-        eq_terms.append(f"{c:+.2f}")
+        eq_terms.append(f"{c:+.4f}")
     elif power == 1:
-        eq_terms.append(f"{c:+.2f}x")
+        eq_terms.append(f"{c:+.4f}x")
     else:
-        eq_terms.append(f"{c:+.2f}x^{power}")
+        eq_terms.append(f"{c:+.4f}x^{power}")
 eq_str = "f(x) = " + " ".join(eq_terms).lstrip("+ ")
 table_data.append(["回歸方程式", eq_str, "擬合結果"])
 
