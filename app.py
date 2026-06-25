@@ -98,4 +98,79 @@ except np.linalg.LinAlgError:
     coeffs = np.zeros(degree + 1) # 奇異矩陣時給予零陣列，避免繪圖崩潰
 
 # ==========================================
-# 4. 視覺化區
+# 4. 視覺化區塊 (使用 Plotly 達成滑鼠懸浮互動顯示座標)
+# ==========================================
+fig = go.Figure()
+
+# 繪製紅色觀測點
+fig.add_trace(go.Scatter(
+    x=x, y=y,
+    mode='markers',
+    marker=dict(color='red', size=11),
+    name='Data Points',
+    hovertemplate='X 座標: %{x}<br>Y 座標: %{y}<extra></extra>' # 游標移上去顯示精準座標
+))
+
+# 如果能正常計算反矩陣，才繪製藍色擬合曲線
+if coeffs_calculated:
+    x_min, x_max = np.min(x), np.max(x)
+    x_range = np.linspace(x_min - 2, x_max + 5, 200)
+    y_fit = np.polyval(coeffs, x_range)
+
+    fig.add_trace(go.Scatter(
+        x=x_range, y=y_fit,
+        mode='lines',
+        line=dict(color='blue', width=2.5),
+        name='擬合曲線',
+        hoverinfo='skip' # 曲線上不顯示懸浮框，聚焦在觀測點
+    ))
+
+# 動態設定畫面的 Y 軸視野範圍
+y_min, y_max = np.min(y), np.max(y)
+fig.update_layout(
+    yaxis_range=[y_min - 10, y_max + 15],
+    hovermode='closest',
+    margin=dict(l=0, r=0, t=30, b=0),
+    showlegend=False,
+    font=dict(size=15, color="black") # 統一放大圖表內的所有標籤字體
+)
+
+st.plotly_chart(fig, use_container_width=True)
+
+# ==========================================
+# 5. 高階響應式排版：展示計算邏輯 (解決表格擠壓)
+# ==========================================
+st.write("---")
+st.subheader("📊 運算細節與結果 (正規方程邏輯)")
+
+st.markdown("#### 1. $A^T A$ (正規矩陣)")
+st.dataframe(pd.DataFrame(ATA), use_container_width=True)
+
+st.markdown("#### 2. $(A^T A)^{-1}$ (反矩陣)")
+if coeffs_calculated:
+    st.dataframe(pd.DataFrame(np.linalg.inv(ATA)), use_container_width=True)
+else:
+    st.error("❌ 目前的數據點組合無法計算反矩陣（奇異矩陣），請嘗試新增、刪除或調整數據點座標！")
+
+st.markdown("#### 3. $\hat{x}$ (計算出的係數，由高次項至常數項)")
+if coeffs_calculated:
+    st.dataframe(pd.DataFrame(coeffs, columns=["係數數值"]), use_container_width=True)
+else:
+    st.write("無法求出唯一係數。")
+
+st.write("---")
+
+# ==========================================
+# 6. 底部指標區 (數據點數與均方誤差 MSE)
+# ==========================================
+if coeffs_calculated:
+    y_pred = np.polyval(coeffs, x)
+    mse = np.mean((y - y_pred)**2)
+else:
+    mse = 0.0
+
+col_metric1, col_metric2 = st.columns(2)
+with col_metric1:
+    st.metric(label="數據點數", value=f"{len(x)}")
+with col_metric2:
+    st.metric(label="擬合誤差 (MSE)", value=f"{mse:.4f}")
